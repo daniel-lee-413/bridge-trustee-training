@@ -306,7 +306,7 @@ footer.nav{position:sticky;bottom:0;background:rgba(255,255,255,.96);backdrop-fi
 .scard .stamp{position:absolute;top:22px;padding:6px 12px;border-radius:10px;font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;opacity:0;border:3px solid}
 .scard .stamp.y{right:22px;color:#ff8a80;border-color:#ff8a80;rotate:8deg}.scard .stamp.n{left:22px;color:#7bd88f;border-color:#7bd88f;rotate:-8deg}
 .scard.under{transform:scale(.94) translateY(14px);opacity:.75}.scard.under2{transform:scale(.88) translateY(28px);opacity:.45}
-.scard.donecard{cursor:default;background:linear-gradient(120deg,#00b8e9,#0094bd)}
+.scard.donecard{cursor:default;background:linear-gradient(120deg,#00b8e9,#0094bd)}.scard.donecard .hint{color:#fff;align-items:center;gap:10px}
 .choicebar{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:420px;margin-top:16px}
 .choicebar button{all:unset;cursor:pointer;text-align:center;padding:13px;border-radius:14px;font-weight:800}
 .choicebar .n{background:var(--ok-t);color:var(--ok)}.choicebar .y{background:var(--bad-t);color:var(--bad)}
@@ -354,6 +354,33 @@ footer.nav{position:sticky;bottom:0;background:rgba(255,255,255,.96);backdrop-fi
 .namefield label{display:block;font-weight:700;color:var(--head);font-size:15px;margin-bottom:6px}
 .namefield input{font:inherit;font-size:16px;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);color:var(--head);width:100%;max-width:22rem}
 .namefield input:focus{outline:2px solid var(--blue);outline-offset:1px}
+/* ===== cash simulator ===== */
+.sim{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:20px;background:var(--panel);border-radius:20px;padding:20px;margin:6px 0 12px;align-items:start}
+@media (max-width:760px){.sim{grid-template-columns:1fr}}
+.sliders{display:grid;gap:14px}
+.sl{background:#fff;border-radius:14px;padding:12px 14px;border:1px solid var(--line)}
+.sl label{display:flex;justify-content:space-between;gap:10px;font-weight:700;color:var(--head);font-size:15px;margin-bottom:6px}
+.sl label output{color:var(--blue-d);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sl small{display:block;color:var(--muted);font-size:13px;margin-top:4px;line-height:1.4}
+.sl input[type=range]{width:100%;accent-color:#00b8e9;height:28px;margin:0}
+.simchart{background:#fff;border-radius:14px;padding:12px 12px 8px}
+.simchart svg{display:block;width:100%;height:auto}
+.simread{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:10px;margin-top:12px}
+.simread div{background:#fff;border-radius:12px;padding:10px 12px;border-top:3px solid var(--blue)}
+.simread b{display:block;font-size:24px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.simread span{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.simverdict{margin-top:12px;border-radius:14px;padding:14px 16px;font-weight:600}
+.simverdict.ok{background:var(--ok-t);color:var(--ok)}.simverdict.tight{background:var(--amber-t);color:var(--amber)}.simverdict.bad{background:var(--bad-t);color:var(--bad)}
+.simverdict b{color:inherit}
+.working{margin-top:12px}
+.working summary{cursor:pointer;font-weight:700;color:var(--blue-t)}
+.working .tw{overflow-x:auto;margin-top:8px}
+.working table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums;min-width:560px}
+.working th,.working td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.working th:first-child,.working td:first-child{text-align:left}
+.working tr:first-child th{border-top:2px solid var(--blue);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.working td.neg{color:var(--bad)}.working td.pos{color:var(--ok)}
+.working p{font-size:13.5px;color:var(--muted);margin:8px 0 0}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (prefers-reduced-motion:reduce){.call{opacity:1;transform:none}.after{opacity:1;transform:none}}
 </style>
@@ -848,8 +875,8 @@ const MODULE = {
       const tot = (qfs?qfs.cards.length:0)+scen.length, got = qRight+sRight;
       const msg = got===tot ? "Every answer in line with the policy. You're ready for Session 2." : got >= tot*0.7 ? "Strong instincts. Flip the cards below to lock in the key points." : "Worth revisiting the situations you missed. The reasoning is all there.";
       el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2>'+
-        '<div class="save">'+(qfs ? '<div class="item"><span class="big">'+qRight+'/'+qfs.cards.length+'</span><span class="cap">Quick-fire</span></div>' : '')+
-          '<div class="item"><span class="big">'+sRight+'/'+scen.length+'</span><span class="cap">Situations</span></div><div class="msg">'+msg+'</div></div>'+
+        '<div class="save">'+(qfs ? '<div class="item"><span class="big">'+qRight+'/'+qfs.cards.length+'</span><span class="cap">'+(sc.qfLabel||'Quick-fire')+'</span></div>' : '')+
+          '<div class="item"><span class="big">'+sRight+'/'+scen.length+'</span><span class="cap">'+(sc.scLabel||'Situations')+'</span></div><div class="msg">'+msg+'</div></div>'+
         '<p class="small muted">Your scores are just for you. They stay on this device and aren\'t recorded.</p>'+
         (sc.certificate ? '<div class="done"><div class="ring">'+RING_SVG+'</div><div><div class="namefield"><label for="certIn">Name on your certificate</label><input id="certIn" type="text" autocomplete="name" placeholder="Type your name"></div>'+
           '<div class="cert"><img src="'+LOGO+'" alt="Bridge Support"><div class="k">Certificate of completion</div><div class="nm" id="certName"></div><div class="md">'+fill(sc.certificate)+'</div><div class="meta"><span id="certDate"></span><span>'+M.minutes+' minutes · '+M.sections.length+' parts</span></div>'+SEAL_SVG+'</div></div></div>' : '')+
@@ -911,25 +938,26 @@ const MODULE = {
     },
     swipe(sc, el){
       const qa = answers[sc.qid] || (answers[sc.qid] = {});
+      const YES = sc.yesLabel || "Likely serious", NO = sc.noLabel || "Not serious", SY = sc.yesStamp || "Serious", SN = sc.noStamp || "Not serious";
       el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2><p>'+fill(sc.intro)+'</p>'+
-        '<div class="swipe"><div><div class="deck" id="deck"></div><div class="choicebar"><button class="n" type="button" id="bNo">← Not serious</button><button class="y" type="button" id="bYes">Likely serious →</button></div></div>'+
+        '<div class="swipe"><div><div class="deck" id="deck"></div><div class="choicebar"><button class="n" type="button" id="bNo">← '+NO+'</button><button class="y" type="button" id="bYes">'+YES+' →</button></div></div>'+
         '<div><div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Your calls</h3><span class="scorepill" id="sscore"></span></div><div class="slog" id="slog"></div></div></div>';
       const n = sc.cards.length;
       const nextIdx = ()=>{ let k=0; while(k<n && qa[k]!==undefined) k++; return k; };
       const score = ()=>{ const ks=Object.keys(qa); $("sscore").textContent = ks.filter(k=>qa[k]===sc.cards[k].serious).length+" / "+ks.length; };
-      const logItem = (k)=>{ const c=sc.cards[k], ok=qa[k]===c.serious, it=document.createElement("div"); it.className="item"; it.innerHTML='<b class="'+(ok?"ok":"no")+'">'+(ok?"Right. ":"Not quite. ")+(c.serious?"Likely serious.":"Not serious.")+'</b> '+fill(c.why); const ph=$("slog").querySelector(".ph"); if (ph) ph.remove(); $("slog").prepend(it); };
+      const logItem = (k)=>{ const c=sc.cards[k], ok=qa[k]===c.serious, it=document.createElement("div"); it.className="item"; it.innerHTML='<b class="'+(ok?"ok":"no")+'">'+(ok?"Right. ":"Not quite. ")+(c.serious?YES+".":NO+".")+'</b> '+fill(c.why); const ph=$("slog").querySelector(".ph"); if (ph) ph.remove(); $("slog").prepend(it); };
       const paint = ()=>{
         const deck=$("deck"); deck.innerHTML=""; const ci=nextIdx(); score();
         if (ci>=n){
           const r = Object.keys(qa).filter(k=>qa[k]===sc.cards[k].serious).length;
-          deck.innerHTML='<div class="scard donecard"><div class="ic" style="background:rgba(255,255,255,.18)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="txt">All done. '+r+' of '+n+' in line with the policy.</div><div class="hint"><span>The longer situations follow</span><button type="button" id="again" class="btn" style="background:#fff;color:#15242c;padding:8px 14px;font-size:13.5px;letter-spacing:0;text-transform:none">Deal again</button></div></div>';
+          deck.innerHTML='<div class="scard donecard"><div class="ic" style="background:rgba(255,255,255,.18)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="txt">All done. '+r+' of '+n+' '+(sc.doneText||'in line with the policy')+'.</div><div class="hint"><span>'+(sc.doneHint||'The longer situations follow')+'</span><button type="button" id="again" class="btn" style="background:#fff;color:#15242c;padding:8px 14px;font-size:13.5px;letter-spacing:0;text-transform:none">Deal again</button></div></div>';
           $("again").onclick=()=>{ answers[sc.qid]={}; save(); R.swipe(sc, el); };
           $("bYes").disabled=$("bNo").disabled=true; return;
         }
         for (let k=Math.min(n-1,ci+2); k>=ci; k--){
           const c=sc.cards[k], d=document.createElement("div");
           d.className="scard"+(k===ci+1?" under":"")+(k===ci+2?" under2":"");
-          d.innerHTML='<span class="stamp y">Serious</span><span class="stamp n">Not serious</span><div class="ic">'+(ICONS[c.icon]||ICONS.doc)+'</div><div class="txt">'+fill(c.text)+'</div><div class="hint"><span>← Not serious</span><span>'+(k+1)+' / '+n+'</span><span>Serious →</span></div>';
+          d.innerHTML='<span class="stamp y">'+SY+'</span><span class="stamp n">'+SN+'</span><div class="ic">'+(ICONS[c.icon]||ICONS.doc)+'</div><div class="txt">'+fill(c.text)+'</div><div class="hint"><span>← Not serious</span><span>'+(k+1)+' / '+n+'</span><span>Serious →</span></div>';
           if (k===ci){ d.tabIndex=0; d.setAttribute("aria-label", fill(c.text)+" Use the left or right arrow key, or the buttons below."); dragify(d); }
           deck.appendChild(d);
         }
@@ -973,6 +1001,53 @@ const MODULE = {
         b.onclick=()=>{ st[k]=!st[k]; save(); b.setAttribute("aria-pressed", st[k]); draw(); };
         $("factors").appendChild(b);
       });
+      draw();
+    },
+
+    cashsim(sc, el){
+      const m = sc.model, st = answers[sc.qid] || (answers[sc.qid] = {voids:m.voids.def, delay:m.delay.def, cost:m.cost.def});
+      const gbp = v => (v<0?"−":"")+"£"+Math.abs(Math.round(v)).toLocaleString("en-GB");
+      const k = v => (v<0?"−":"")+"£"+Math.round(Math.abs(v)/1000)+"k";
+      el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2><p>'+fill(sc.intro)+'</p>'+
+        '<div class="sim"><div class="sliders">'+
+          ['voids','delay','cost'].map(key=>{ const d=m[key]; return '<div class="sl"><label for="sl-'+key+'"><span>'+d.label+'</span><output id="o-'+key+'"></output></label><input type="range" id="sl-'+key+'" min="'+d.min+'" max="'+d.max+'" step="'+d.step+'" value="'+st[key]+'"><small>'+fill(d.note)+'</small></div>'; }).join("")+
+        '</div><div><div class="simchart" id="simchart"></div><div class="simread" id="simread"></div><div class="simverdict" id="simverdict" aria-live="polite"></div></div></div>'+
+        '<details class="working"><summary>Show the working</summary><div class="tw" id="simwork"></div><p>'+fill(sc.workingNote)+'</p></details>'+
+        (sc.after ? '<div class="feedback" style="margin-top:14px">'+fill(sc.after)+'</div>' : '');
+      const calc = ()=>{
+        const rows=[]; let cash=m.startCash;
+        for (let mo=1; mo<=6; mo++){
+          const base = m.monthlyNet, voids = -st.voids*m.voidCost, cost = -m.monthlyCosts*st.cost/100;
+          let late = 0; if (st.delay>0){ if (mo<=st.delay) late = -m.latePayment; else if (mo===st.delay+1) late = m.latePayment*st.delay; }
+          const start=cash; cash = start+base+voids+cost+late; rows.push({mo,start,base,voids,cost,late,end:cash});
+        }
+        return rows;
+      };
+      const draw = ()=>{
+        ['voids','delay','cost'].forEach(key=>{ const d=m[key]; $("o-"+key).textContent = d.fmt.replace("{v}", st[key]); });
+        const rows = calc(), pts=[m.startCash, ...rows.map(r=>r.end)];
+        const lo = Math.min(...pts), loIdx = pts.indexOf(lo), end = pts[6];
+        const W=480,H=260,L=56,R=16,T=18,B=34, ymin=-400000, ymax=900000;
+        const X = i => L + i*(W-L-R)/6, Y = v => T + (ymax-Math.max(ymin,Math.min(ymax,v)))*(H-T-B)/(ymax-ymin);
+        let g = '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Cash in the bank over six months. Lowest point '+k(lo)+' in month '+loIdx+'.">';
+        g += '<rect x="'+L+'" y="'+Y(m.buffer)+'" width="'+(W-L-R)+'" height="'+(Y(ymin)-Y(m.buffer))+'" fill="#fdecea"/>';
+        [-400000,0,300000,600000,900000].forEach(v=>{ g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="'+(v===0?'#93a0a8':'#e4eaed')+'" stroke-width="'+(v===0?1.5:1)+'"/><text x="'+(L-8)+'" y="'+(Y(v)+4)+'" text-anchor="end" font-family="Figtree,Arial" font-size="11" fill="#6c7b84">'+k(v)+'</text>'; });
+        g += '<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(m.buffer)+'" y2="'+Y(m.buffer)+'" stroke="#b3261e" stroke-width="1.5" stroke-dasharray="5 4"/><text x="'+(W-R)+'" y="'+(Y(m.buffer)-6)+'" text-anchor="end" font-family="Figtree,Arial" font-size="11" font-weight="700" fill="#b3261e">Minimum buffer '+k(m.buffer)+'</text>';
+        for (let i=0;i<=6;i++) g += '<text x="'+X(i)+'" y="'+(H-12)+'" text-anchor="middle" font-family="Figtree,Arial" font-size="11" fill="#6c7b84">'+(i===0?'Now':'M'+i)+'</text>';
+        g += '<polyline points="'+pts.map((v,i)=>X(i)+','+Y(v)).join(' ')+'" fill="none" stroke="#15242c" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>';
+        pts.forEach((v,i)=>{ g += '<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="'+(i===loIdx?7:4.5)+'" fill="'+(i===loIdx?(lo<m.buffer?'#b3261e':'#00b8e9'):'#15242c')+'" stroke="#fff" stroke-width="'+(i===loIdx?2.5:0)+'"/>'; });
+        const lx = Math.min(W-R-4, Math.max(L+4, X(loIdx))), ly = Y(lo)+(Y(lo)>H-B-30?-14:22);
+        g += '<text x="'+lx+'" y="'+ly+'" text-anchor="'+(loIdx>=5?'end':loIdx===0?'start':'middle')+'" font-family="Figtree,Arial" font-size="12" font-weight="800" fill="#15242c">Lowest '+k(lo)+'</text></svg>';
+        $("simchart").innerHTML = g;
+        $("simread").innerHTML = '<div><b>'+k(lo)+'</b><span>Lowest point'+(loIdx? ' · M'+loIdx:'')+'</span></div><div><b>'+k(end)+'</b><span>After 6 months</span></div><div><b>'+k(end-m.startCash)+'</b><span>Change in cash</span></div>';
+        const v=$("simverdict");
+        if (lo < 0){ v.className="simverdict bad"; v.innerHTML='<b>Cash runs out.</b> In month '+loIdx+' we would need an overdraft or emergency action, even though the service is running normally.'; }
+        else if (lo < m.buffer){ v.className="simverdict tight"; v.innerHTML='<b>Below the buffer.</b> Cash dips under '+k(m.buffer)+' in month '+loIdx+'. The Board would want a plan and a date.'; }
+        else { v.className="simverdict ok"; v.innerHTML='<b>Comfortable.</b> Cash stays above the '+k(m.buffer)+' buffer throughout.'; }
+        $("simwork").innerHTML = '<table><tr><th>Month</th><th>Start</th><th>Normal month</th><th>Empty flats</th><th>Cost rise</th><th>Late payment</th><th>End</th></tr>'+
+          rows.map(r=>'<tr><td>M'+r.mo+'</td><td>'+gbp(r.start)+'</td>'+[r.base,r.voids,r.cost,r.late].map(x=>'<td class="'+(x<0?'neg':x>0?'pos':'')+'">'+(x>0?'+':'')+gbp(x)+'</td>').join("")+'<td><b>'+gbp(r.end)+'</b></td></tr>').join("")+'</table>';
+      };
+      ['voids','delay','cost'].forEach(key=>{ $("sl-"+key).addEventListener("input",e=>{ st[key]=Number(e.target.value); save(); draw(); }); });
       draw();
     },
     tabs(sc, el){

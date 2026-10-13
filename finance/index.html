@@ -306,7 +306,7 @@ footer.nav{position:sticky;bottom:0;background:rgba(255,255,255,.96);backdrop-fi
 .scard .stamp{position:absolute;top:22px;padding:6px 12px;border-radius:10px;font-weight:800;font-size:15px;letter-spacing:.06em;text-transform:uppercase;opacity:0;border:3px solid}
 .scard .stamp.y{right:22px;color:#ff8a80;border-color:#ff8a80;rotate:8deg}.scard .stamp.n{left:22px;color:#7bd88f;border-color:#7bd88f;rotate:-8deg}
 .scard.under{transform:scale(.94) translateY(14px);opacity:.75}.scard.under2{transform:scale(.88) translateY(28px);opacity:.45}
-.scard.donecard{cursor:default;background:linear-gradient(120deg,#00b8e9,#0094bd)}
+.scard.donecard{cursor:default;background:linear-gradient(120deg,#00b8e9,#0094bd)}.scard.donecard .hint{color:#fff;align-items:center;gap:10px}
 .choicebar{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:420px;margin-top:16px}
 .choicebar button{all:unset;cursor:pointer;text-align:center;padding:13px;border-radius:14px;font-weight:800}
 .choicebar .n{background:var(--ok-t);color:var(--ok)}.choicebar .y{background:var(--bad-t);color:var(--bad)}
@@ -354,6 +354,33 @@ footer.nav{position:sticky;bottom:0;background:rgba(255,255,255,.96);backdrop-fi
 .namefield label{display:block;font-weight:700;color:var(--head);font-size:15px;margin-bottom:6px}
 .namefield input{font:inherit;font-size:16px;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);color:var(--head);width:100%;max-width:22rem}
 .namefield input:focus{outline:2px solid var(--blue);outline-offset:1px}
+/* ===== cash simulator ===== */
+.sim{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:20px;background:var(--panel);border-radius:20px;padding:20px;margin:6px 0 12px;align-items:start}
+@media (max-width:760px){.sim{grid-template-columns:1fr}}
+.sliders{display:grid;gap:14px}
+.sl{background:#fff;border-radius:14px;padding:12px 14px;border:1px solid var(--line)}
+.sl label{display:flex;justify-content:space-between;gap:10px;font-weight:700;color:var(--head);font-size:15px;margin-bottom:6px}
+.sl label output{color:var(--blue-d);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sl small{display:block;color:var(--muted);font-size:13px;margin-top:4px;line-height:1.4}
+.sl input[type=range]{width:100%;accent-color:#00b8e9;height:28px;margin:0}
+.simchart{background:#fff;border-radius:14px;padding:12px 12px 8px}
+.simchart svg{display:block;width:100%;height:auto}
+.simread{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:10px;margin-top:12px}
+.simread div{background:#fff;border-radius:12px;padding:10px 12px;border-top:3px solid var(--blue)}
+.simread b{display:block;font-size:24px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.simread span{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.simverdict{margin-top:12px;border-radius:14px;padding:14px 16px;font-weight:600}
+.simverdict.ok{background:var(--ok-t);color:var(--ok)}.simverdict.tight{background:var(--amber-t);color:var(--amber)}.simverdict.bad{background:var(--bad-t);color:var(--bad)}
+.simverdict b{color:inherit}
+.working{margin-top:12px}
+.working summary{cursor:pointer;font-weight:700;color:var(--blue-t)}
+.working .tw{overflow-x:auto;margin-top:8px}
+.working table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums;min-width:560px}
+.working th,.working td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.working th:first-child,.working td:first-child{text-align:left}
+.working tr:first-child th{border-top:2px solid var(--blue);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.working td.neg{color:var(--bad)}.working td.pos{color:var(--ok)}
+.working p{font-size:13.5px;color:var(--muted);margin:8px 0 0}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (prefers-reduced-motion:reduce){.call{opacity:1;transform:none}.after{opacity:1;transform:none}}
 </style>
@@ -396,9 +423,9 @@ const MODULE_CONFIG = {
 // =============================================
 
 const MODULE = {
-  id: "finance-primer-draft-v1",
+  id: "finance-primer-draft-v2",
   title: "Is the money safe? A primer",
-  minutes: 8,
+  minutes: 10,
   config: MODULE_CONFIG,
   footer: "Is the money safe? — Trustee training",
   sections: [
@@ -408,15 +435,14 @@ const MODULE = {
 <polyline points="65,92 117,110 169,131 221,158 273,184 325,212" fill="none" stroke="#15242c" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
 <circle cx="65" cy="92" r="4.5" fill="#15242c"/><circle cx="117" cy="110" r="4.5" fill="#15242c"/><circle cx="169" cy="131" r="4.5" fill="#15242c"/><circle cx="221" cy="158" r="4.5" fill="#15242c"/><circle cx="273" cy="184" r="4.5" fill="#15242c"/><circle cx="325" cy="212" r="7" fill="#b3261e" stroke="#fff" stroke-width="2.5"/>
 <text x="65" y="78" font-size="12.5" font-weight="700" fill="#15242c">Cash in the bank: <tspan fill="#b3261e">falling</tspan></text>
-<text x="50" y="275" font-size="12.5" font-weight="700" fill="#0094bd">Monthly surplus: steady</text></svg>`, stats: [["4","Numbers to watch"],["3","Questions to bring"]], eyebrow: "Trustee training · Optional, before Session 3",
+<text x="50" y="275" font-size="12.5" font-weight="700" fill="#0094bd">Monthly surplus: steady</text></svg>`, stats: [["6","Months to simulate"],["6","Signs to judge"]], eyebrow: "Trustee training · Optional, before Session 3",
       title: "Is the money safe?",
       lead: "A short primer for Trustees who don't read accounts for a living. It covers four numbers worth watching, the money risks on our Key Risks Register, and the questions that get useful answers." },
-    { type: "html", html: `
-      <p class="eyebrow">Why it matters</p>
-      <h2>A charity can be profitable on paper and still run out of cash</h2>
-      <p class="lead">At {serviceName}, two flats sit empty for three months and a commissioner pays two months late. Nothing has gone wrong with the service, but the bank balance is falling fast.</p>
-      <p>Managing the charity's resources responsibly is one of the six core Trustee duties in the Charity Commission's <i>The essential trustee</i> (CC3). You don't need to be an accountant to meet it. You do need to know which numbers to look at and what to ask.</p>
-      <p class="muted small">Three of your fellow Trustees are chartered accountants. Session 3 is built so you hear this from them too.</p>` }
+    { type: "scene", qid: "fcall", eyebrow: "Why it matters", title: "Surplus on paper, cash running low",
+      label: "{serviceName} · two flats empty", time: "Tuesday · 17:55", caller: "Finance Director", callerSub: "Mobile · calling the Chair",
+      speech: "Two flats at {serviceName} have been empty since the spring, and the commissioner's payment is now two months late. We're still in surplus on paper, but cash is lower than I'd like. I'm flagging it before the Board.",
+      declineText: "Worth taking. The Board needs early warning on cash, not just the annual accounts. Press Answer.",
+      after: `<p class="lead">Nothing has gone wrong with the service, but the bank balance is falling fast.</p><p>Managing the charity's resources responsibly is one of the six core Trustee duties in the Charity Commission's <i>The essential trustee</i> (CC3). You don't need to be an accountant to meet it. You do need to know which numbers to look at and what to ask.</p><p class="muted small">Three of your fellow Trustees are chartered accountants. Session 3 is built so you hear this from them too.</p>` }
   ]},
   { name: "Four numbers", mins: 2, screens: [
     { type: "html", html: `
@@ -430,6 +456,18 @@ const MODULE = {
       </div>
       <div class="panel" style="margin-top:16px"><h3>Read them together</h3><p class="small" style="margin:0">A surplus with rising debtors and falling cash is a warning sign. Reserves of around one month mean a short delay in payments can quickly become a real problem.</p></div>
       <p class="small muted" style="margin-top:12px">[Draft note: Mukesh Sharma may want to add Bridge's current figures here. Leave them out if the module is hosted publicly.]</p>` },
+    { type: "swipe", qid: "sig", eyebrow: "Four numbers · Warm-up", title: "Healthy sign or warning sign?",
+      intro: "Six lines you might read in a finance report. Drag right for a warning sign, left for a healthy one, or use the buttons.",
+      yesLabel: "Warning sign", noLabel: "Healthy sign", yesStamp: "Warning", noStamp: "Healthy",
+      doneText: "matched the finance team's view", doneHint: "Next: one to think through",
+      cards: [
+        { icon: "money", text: "A surplus for the quarter, but cash has fallen three months in a row.", serious: true, why: "Surplus isn't cash. Ask where the money is going, or who hasn't paid." },
+        { icon: "doc", text: "Debtors have risen from £500k to £800k in one quarter.", serious: true, why: "£300k more is owed to us. Ask who owes it and how overdue it is." },
+        { icon: "aid", text: "Empty flats across the estate fell from nine to three.", serious: false, why: "Fewer voids means more rent and housing benefit coming in." },
+        { icon: "news", text: "A commissioner confirms a 2% uplift. Our costs rose 5%.", serious: true, why: "The 3% gap comes straight out of the margin on that contract (KR1, KR3)." },
+        { icon: "mail", text: "All commissioner invoices were paid within 30 days this quarter.", serious: false, why: "Cash is arriving when expected." },
+        { icon: "police", text: "Reserves are steady at the level set in the Reserves Policy.", serious: false, why: "The cushion is where the Board agreed it should be." }
+      ] },
     { type: "scenario", qid: "f1", eyebrow: "Four numbers · Check yourself", title: "Which one worries you most?", chips: ["Illustrative figures"],
       setup: `<p style="margin:0">This quarter's report shows a <b>£40k surplus</b>. Debtors have risen from £500k to £800k, cash has fallen from £900k to £650k, and reserves are flat at 1.2 months.</p>`,
       question: "Which is the most important thing to ask about?",
@@ -438,7 +476,17 @@ const MODULE = {
       feedback: `<p style="margin:0">The surplus looks fine, but £300k more is owed to us and cash has fallen by £250k. That gap is the immediate risk. Reserves matter too, but they haven't moved this quarter.</p>`,
       key: "Surplus tells you about the year. Cash and debtors tell you about next month." }
   ]},
-  { name: "Our money risks", mins: 2, screens: [
+  { name: "Our money risks", mins: 4, screens: [
+    { type: "cashsim", qid: "sim", eyebrow: "Our money risks · Try it", title: "What happens to the cash?",
+      intro: "This is the {serviceName} story in numbers. Move the sliders and watch six months of cash in the bank. The service runs normally throughout; only the timing of money changes.",
+      model: {
+        startCash: 650000, monthlyNet: 10000, monthlyCosts: 990000, voidCost: 1500, latePayment: 150000, buffer: 300000,
+        voids: { label: "Empty flats", min: 0, max: 12, step: 1, def: 2, fmt: "{v} flats", note: "Each empty flat loses about £1,500 a month in rent and housing benefit (KR2)." },
+        delay: { label: "Commissioner pays late", min: 0, max: 4, step: 1, def: 2, fmt: "{v} months", note: "A £150,000-a-month contract held back, then paid in one lump when it catches up." },
+        cost: { label: "Costs rise faster than income", min: 0, max: 5, step: 1, def: 0, fmt: "+{v}%", note: "Wages, energy or rents up more than the contract uplift (KR1, KR3)." }
+      },
+      workingNote: "Illustrative figures only, not Bridge Support's accounts. Each month: start cash + £10,000 normal surplus − (empty flats × £1,500) − (£990,000 monthly costs × cost rise %) − £150,000 for each month the payment is late, + the held-back total in the month it's finally paid. The buffer line is an example, not Bridge's actual policy.",
+      after: `<div class="verdict ok">Try this: 2 empty flats, 2 months late, no cost rise.</div><p style="margin:0">Cash drops by £286,000 in two months, to £364,000, then recovers when the commissioner pays. Now make it 4 months late and add a 2% cost rise. Same service, but by month 4 the cash has run out. That's why Trustees ask about cash and debtors, not just the surplus.</p><div class="keylearn">A late payment doesn't change the surplus. It can still empty the bank.</div>` },
     { type: "html", html: `
       <p class="eyebrow">Our money risks</p>
       <h2>The four financial Key Risks</h2>
@@ -486,15 +534,16 @@ const MODULE = {
       key: "When you hear 'timing', ask 'until when?'" }
   ]},
   { name: "Finish", mins: 1, screens: [
-    { type: "html", html: `
-      <p class="eyebrow">Finish</p>
-      <h2>Bring three questions to Session 3</h2>
-      <ul class="clean" style="margin-bottom:22px">
-        <li>One about <b>cash</b>: when is our lowest point, and why?</li>
-        <li>One about <b>a contract</b>: is it covering its costs, and will it next year?</li>
-        <li>One about <b>reserves</b>: how many months do we hold, and is that enough for the risks we carry?</li>
-      </ul>
-      <div class="panel"><h3>Mark this as done</h3><p class="small">Submitting the short form records that you've completed the primer.</p><a class="btn" data-form>Open the form</a></div>` }
+    { type: "finish", eyebrow: "Finish", title: "How you did", qfLabel: "Signs judged", scLabel: "Questions",
+      certificate: "has completed <b>Is the money safe?</b>, the optional finance primer for Trustee Training Session 3.",
+      formText: "Submitting the short form records that you've completed the primer. Bring three questions to Session 3: one about cash, one about a contract, and one about reserves.",
+      cards: [
+        { q: "Surplus or cash: which pays this month's wages?", a: "Cash. A surplus can sit alongside a falling bank balance." },
+        { q: "What are debtors?", a: "Money owed to us but not yet received, mostly from commissioners. High debtors means cash that's stuck." },
+        { q: "What do reserves in months tell you?", a: "How long we could keep running from our own funds if income stopped." },
+        { q: "What's KR2?", a: "Voids. Empty flats still cost rent but bring in no housing benefit or service income." },
+        { q: "You hear \"it's just timing\". What do you ask?", a: "Until when? Who owes it, how overdue is it, and what's our lowest cash point?" }
+      ] }
   ]}
   ]
 };
@@ -712,8 +761,8 @@ const MODULE = {
       const tot = (qfs?qfs.cards.length:0)+scen.length, got = qRight+sRight;
       const msg = got===tot ? "Every answer in line with the policy. You're ready for Session 2." : got >= tot*0.7 ? "Strong instincts. Flip the cards below to lock in the key points." : "Worth revisiting the situations you missed. The reasoning is all there.";
       el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2>'+
-        '<div class="save">'+(qfs ? '<div class="item"><span class="big">'+qRight+'/'+qfs.cards.length+'</span><span class="cap">Quick-fire</span></div>' : '')+
-          '<div class="item"><span class="big">'+sRight+'/'+scen.length+'</span><span class="cap">Situations</span></div><div class="msg">'+msg+'</div></div>'+
+        '<div class="save">'+(qfs ? '<div class="item"><span class="big">'+qRight+'/'+qfs.cards.length+'</span><span class="cap">'+(sc.qfLabel||'Quick-fire')+'</span></div>' : '')+
+          '<div class="item"><span class="big">'+sRight+'/'+scen.length+'</span><span class="cap">'+(sc.scLabel||'Situations')+'</span></div><div class="msg">'+msg+'</div></div>'+
         '<p class="small muted">Your scores are just for you. They stay on this device and aren\'t recorded.</p>'+
         (sc.certificate ? '<div class="done"><div class="ring">'+RING_SVG+'</div><div><div class="namefield"><label for="certIn">Name on your certificate</label><input id="certIn" type="text" autocomplete="name" placeholder="Type your name"></div>'+
           '<div class="cert"><img src="'+LOGO+'" alt="Bridge Support"><div class="k">Certificate of completion</div><div class="nm" id="certName"></div><div class="md">'+fill(sc.certificate)+'</div><div class="meta"><span id="certDate"></span><span>'+M.minutes+' minutes · '+M.sections.length+' parts</span></div>'+SEAL_SVG+'</div></div></div>' : '')+
@@ -775,25 +824,26 @@ const MODULE = {
     },
     swipe(sc, el){
       const qa = answers[sc.qid] || (answers[sc.qid] = {});
+      const YES = sc.yesLabel || "Likely serious", NO = sc.noLabel || "Not serious", SY = sc.yesStamp || "Serious", SN = sc.noStamp || "Not serious";
       el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2><p>'+fill(sc.intro)+'</p>'+
-        '<div class="swipe"><div><div class="deck" id="deck"></div><div class="choicebar"><button class="n" type="button" id="bNo">← Not serious</button><button class="y" type="button" id="bYes">Likely serious →</button></div></div>'+
+        '<div class="swipe"><div><div class="deck" id="deck"></div><div class="choicebar"><button class="n" type="button" id="bNo">← '+NO+'</button><button class="y" type="button" id="bYes">'+YES+' →</button></div></div>'+
         '<div><div class="row" style="justify-content:space-between;margin-bottom:10px"><h3 style="margin:0">Your calls</h3><span class="scorepill" id="sscore"></span></div><div class="slog" id="slog"></div></div></div>';
       const n = sc.cards.length;
       const nextIdx = ()=>{ let k=0; while(k<n && qa[k]!==undefined) k++; return k; };
       const score = ()=>{ const ks=Object.keys(qa); $("sscore").textContent = ks.filter(k=>qa[k]===sc.cards[k].serious).length+" / "+ks.length; };
-      const logItem = (k)=>{ const c=sc.cards[k], ok=qa[k]===c.serious, it=document.createElement("div"); it.className="item"; it.innerHTML='<b class="'+(ok?"ok":"no")+'">'+(ok?"Right. ":"Not quite. ")+(c.serious?"Likely serious.":"Not serious.")+'</b> '+fill(c.why); const ph=$("slog").querySelector(".ph"); if (ph) ph.remove(); $("slog").prepend(it); };
+      const logItem = (k)=>{ const c=sc.cards[k], ok=qa[k]===c.serious, it=document.createElement("div"); it.className="item"; it.innerHTML='<b class="'+(ok?"ok":"no")+'">'+(ok?"Right. ":"Not quite. ")+(c.serious?YES+".":NO+".")+'</b> '+fill(c.why); const ph=$("slog").querySelector(".ph"); if (ph) ph.remove(); $("slog").prepend(it); };
       const paint = ()=>{
         const deck=$("deck"); deck.innerHTML=""; const ci=nextIdx(); score();
         if (ci>=n){
           const r = Object.keys(qa).filter(k=>qa[k]===sc.cards[k].serious).length;
-          deck.innerHTML='<div class="scard donecard"><div class="ic" style="background:rgba(255,255,255,.18)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="txt">All done. '+r+' of '+n+' in line with the policy.</div><div class="hint"><span>The longer situations follow</span><button type="button" id="again" class="btn" style="background:#fff;color:#15242c;padding:8px 14px;font-size:13.5px;letter-spacing:0;text-transform:none">Deal again</button></div></div>';
+          deck.innerHTML='<div class="scard donecard"><div class="ic" style="background:rgba(255,255,255,.18)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="txt">All done. '+r+' of '+n+' '+(sc.doneText||'in line with the policy')+'.</div><div class="hint"><span>'+(sc.doneHint||'The longer situations follow')+'</span><button type="button" id="again" class="btn" style="background:#fff;color:#15242c;padding:8px 14px;font-size:13.5px;letter-spacing:0;text-transform:none">Deal again</button></div></div>';
           $("again").onclick=()=>{ answers[sc.qid]={}; save(); R.swipe(sc, el); };
           $("bYes").disabled=$("bNo").disabled=true; return;
         }
         for (let k=Math.min(n-1,ci+2); k>=ci; k--){
           const c=sc.cards[k], d=document.createElement("div");
           d.className="scard"+(k===ci+1?" under":"")+(k===ci+2?" under2":"");
-          d.innerHTML='<span class="stamp y">Serious</span><span class="stamp n">Not serious</span><div class="ic">'+(ICONS[c.icon]||ICONS.doc)+'</div><div class="txt">'+fill(c.text)+'</div><div class="hint"><span>← Not serious</span><span>'+(k+1)+' / '+n+'</span><span>Serious →</span></div>';
+          d.innerHTML='<span class="stamp y">'+SY+'</span><span class="stamp n">'+SN+'</span><div class="ic">'+(ICONS[c.icon]||ICONS.doc)+'</div><div class="txt">'+fill(c.text)+'</div><div class="hint"><span>← Not serious</span><span>'+(k+1)+' / '+n+'</span><span>Serious →</span></div>';
           if (k===ci){ d.tabIndex=0; d.setAttribute("aria-label", fill(c.text)+" Use the left or right arrow key, or the buttons below."); dragify(d); }
           deck.appendChild(d);
         }
@@ -837,6 +887,53 @@ const MODULE = {
         b.onclick=()=>{ st[k]=!st[k]; save(); b.setAttribute("aria-pressed", st[k]); draw(); };
         $("factors").appendChild(b);
       });
+      draw();
+    },
+
+    cashsim(sc, el){
+      const m = sc.model, st = answers[sc.qid] || (answers[sc.qid] = {voids:m.voids.def, delay:m.delay.def, cost:m.cost.def});
+      const gbp = v => (v<0?"−":"")+"£"+Math.abs(Math.round(v)).toLocaleString("en-GB");
+      const k = v => (v<0?"−":"")+"£"+Math.round(Math.abs(v)/1000)+"k";
+      el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2><p>'+fill(sc.intro)+'</p>'+
+        '<div class="sim"><div class="sliders">'+
+          ['voids','delay','cost'].map(key=>{ const d=m[key]; return '<div class="sl"><label for="sl-'+key+'"><span>'+d.label+'</span><output id="o-'+key+'"></output></label><input type="range" id="sl-'+key+'" min="'+d.min+'" max="'+d.max+'" step="'+d.step+'" value="'+st[key]+'"><small>'+fill(d.note)+'</small></div>'; }).join("")+
+        '</div><div><div class="simchart" id="simchart"></div><div class="simread" id="simread"></div><div class="simverdict" id="simverdict" aria-live="polite"></div></div></div>'+
+        '<details class="working"><summary>Show the working</summary><div class="tw" id="simwork"></div><p>'+fill(sc.workingNote)+'</p></details>'+
+        (sc.after ? '<div class="feedback" style="margin-top:14px">'+fill(sc.after)+'</div>' : '');
+      const calc = ()=>{
+        const rows=[]; let cash=m.startCash;
+        for (let mo=1; mo<=6; mo++){
+          const base = m.monthlyNet, voids = -st.voids*m.voidCost, cost = -m.monthlyCosts*st.cost/100;
+          let late = 0; if (st.delay>0){ if (mo<=st.delay) late = -m.latePayment; else if (mo===st.delay+1) late = m.latePayment*st.delay; }
+          const start=cash; cash = start+base+voids+cost+late; rows.push({mo,start,base,voids,cost,late,end:cash});
+        }
+        return rows;
+      };
+      const draw = ()=>{
+        ['voids','delay','cost'].forEach(key=>{ const d=m[key]; $("o-"+key).textContent = d.fmt.replace("{v}", st[key]); });
+        const rows = calc(), pts=[m.startCash, ...rows.map(r=>r.end)];
+        const lo = Math.min(...pts), loIdx = pts.indexOf(lo), end = pts[6];
+        const W=480,H=260,L=56,R=16,T=18,B=34, ymin=-400000, ymax=900000;
+        const X = i => L + i*(W-L-R)/6, Y = v => T + (ymax-Math.max(ymin,Math.min(ymax,v)))*(H-T-B)/(ymax-ymin);
+        let g = '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Cash in the bank over six months. Lowest point '+k(lo)+' in month '+loIdx+'.">';
+        g += '<rect x="'+L+'" y="'+Y(m.buffer)+'" width="'+(W-L-R)+'" height="'+(Y(ymin)-Y(m.buffer))+'" fill="#fdecea"/>';
+        [-400000,0,300000,600000,900000].forEach(v=>{ g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="'+(v===0?'#93a0a8':'#e4eaed')+'" stroke-width="'+(v===0?1.5:1)+'"/><text x="'+(L-8)+'" y="'+(Y(v)+4)+'" text-anchor="end" font-family="Figtree,Arial" font-size="11" fill="#6c7b84">'+k(v)+'</text>'; });
+        g += '<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(m.buffer)+'" y2="'+Y(m.buffer)+'" stroke="#b3261e" stroke-width="1.5" stroke-dasharray="5 4"/><text x="'+(W-R)+'" y="'+(Y(m.buffer)-6)+'" text-anchor="end" font-family="Figtree,Arial" font-size="11" font-weight="700" fill="#b3261e">Minimum buffer '+k(m.buffer)+'</text>';
+        for (let i=0;i<=6;i++) g += '<text x="'+X(i)+'" y="'+(H-12)+'" text-anchor="middle" font-family="Figtree,Arial" font-size="11" fill="#6c7b84">'+(i===0?'Now':'M'+i)+'</text>';
+        g += '<polyline points="'+pts.map((v,i)=>X(i)+','+Y(v)).join(' ')+'" fill="none" stroke="#15242c" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>';
+        pts.forEach((v,i)=>{ g += '<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="'+(i===loIdx?7:4.5)+'" fill="'+(i===loIdx?(lo<m.buffer?'#b3261e':'#00b8e9'):'#15242c')+'" stroke="#fff" stroke-width="'+(i===loIdx?2.5:0)+'"/>'; });
+        const lx = Math.min(W-R-4, Math.max(L+4, X(loIdx))), ly = Y(lo)+(Y(lo)>H-B-30?-14:22);
+        g += '<text x="'+lx+'" y="'+ly+'" text-anchor="'+(loIdx>=5?'end':loIdx===0?'start':'middle')+'" font-family="Figtree,Arial" font-size="12" font-weight="800" fill="#15242c">Lowest '+k(lo)+'</text></svg>';
+        $("simchart").innerHTML = g;
+        $("simread").innerHTML = '<div><b>'+k(lo)+'</b><span>Lowest point'+(loIdx? ' · M'+loIdx:'')+'</span></div><div><b>'+k(end)+'</b><span>After 6 months</span></div><div><b>'+k(end-m.startCash)+'</b><span>Change in cash</span></div>';
+        const v=$("simverdict");
+        if (lo < 0){ v.className="simverdict bad"; v.innerHTML='<b>Cash runs out.</b> In month '+loIdx+' we would need an overdraft or emergency action, even though the service is running normally.'; }
+        else if (lo < m.buffer){ v.className="simverdict tight"; v.innerHTML='<b>Below the buffer.</b> Cash dips under '+k(m.buffer)+' in month '+loIdx+'. The Board would want a plan and a date.'; }
+        else { v.className="simverdict ok"; v.innerHTML='<b>Comfortable.</b> Cash stays above the '+k(m.buffer)+' buffer throughout.'; }
+        $("simwork").innerHTML = '<table><tr><th>Month</th><th>Start</th><th>Normal month</th><th>Empty flats</th><th>Cost rise</th><th>Late payment</th><th>End</th></tr>'+
+          rows.map(r=>'<tr><td>M'+r.mo+'</td><td>'+gbp(r.start)+'</td>'+[r.base,r.voids,r.cost,r.late].map(x=>'<td class="'+(x<0?'neg':x>0?'pos':'')+'">'+(x>0?'+':'')+gbp(x)+'</td>').join("")+'<td><b>'+gbp(r.end)+'</b></td></tr>').join("")+'</table>';
+      };
+      ['voids','delay','cost'].forEach(key=>{ $("sl-"+key).addEventListener("input",e=>{ st[key]=Number(e.target.value); save(); draw(); }); });
       draw();
     },
     tabs(sc, el){
