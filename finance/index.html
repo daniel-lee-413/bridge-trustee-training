@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trustee Finance Primer</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: course player. Slim header with segmented section progress, one reading column (max 46rem), footer nav that stays reachable. */
+:root{
+  --paper:#ffffff; --surface:#f1f7fa; --ink:#16252d; --muted:#53636c; --line:#d6e3e9;
+  --blue:#00b8e9; --blue-ink:#00739a; --blue-soft:#e3f6fc; --sun:#ece708; --plum:#851873; --plum-soft:#f6e8f3;
+  --amber:#a86400; --amber-soft:#fff3df; --red:#b3261e; --red-soft:#fde8e6; --green:#2b7a35; --green-soft:#e6f4e8;
+  --on-blue:#06232e;
+  --f-display:"Figtree",Arial,Helvetica,sans-serif; --f-body:"Figtree",Arial,Helvetica,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0e171c; --surface:#16232a; --ink:#e7f0f4; --muted:#9db0b9; --line:#2a3c45;
+  --blue:#2cc6f0; --blue-ink:#5fd3f5; --blue-soft:#12323d; --sun:#ece708; --plum:#e08ad0; --plum-soft:#3a1a33;
+  --amber:#f0a63a; --amber-soft:#3a2a12; --red:#ff8a80; --red-soft:#3d1a18; --green:#7bd88f; --green-soft:#16301b; --on-blue:#06232e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0e171c; --surface:#16232a; --ink:#e7f0f4; --muted:#9db0b9; --line:#2a3c45;
+  --blue:#2cc6f0; --blue-ink:#5fd3f5; --blue-soft:#12323d; --sun:#ece708; --plum:#e08ad0; --plum-soft:#3a1a33;
+  --amber:#f0a63a; --amber-soft:#3a2a12; --red:#ff8a80; --red-soft:#3d1a18; --green:#7bd88f; --green-soft:#16301b; --on-blue:#06232e; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;margin:0}
+.app{display:flex;flex-direction:column;min-height:100%}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--line);padding:12px 20px 10px}
+.top-row{display:flex;align-items:center;gap:14px;max-width:58rem;margin:0 auto}
+.brand{display:flex;align-items:center;gap:8px;min-width:0}
+.brand img{height:26px;width:auto}
+.wordmark{font-weight:700;font-size:15px;color:var(--muted);letter-spacing:.01em;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.wordmark i{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 2px var(--paper),0 0 0 3px #c9c400}
+.mod-title{font-size:14px;color:var(--muted);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-left:1px solid var(--line);padding-left:14px}
+.timeleft{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.segs{display:flex;gap:6px;max-width:58rem;margin:10px auto 0}
+.seg{flex:1;min-width:0}
+.seg button{all:unset;cursor:pointer;display:block;width:100%}
+.seg .bar{height:5px;border-radius:3px;background:var(--line);overflow:hidden}
+.seg .bar span{display:block;height:100%;background:var(--blue);width:0;transition:width .3s}
+.seg .lab{font-size:11.5px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.02em}
+.seg.cur .lab{color:var(--ink);font-weight:600}
+.seg button:focus-visible{outline:2px solid var(--blue-ink);outline-offset:3px;border-radius:3px}
+main{flex:1;padding-inline:20px;padding-block:28px 32px}
+.screen{max-width:46rem;margin:0 auto}
+.eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--blue-ink);margin:0 0 10px}
+h1,h2{font-family:var(--f-display);text-wrap:balance;letter-spacing:-.015em;margin:0 0 14px;line-height:1.15}
+h1{font-size:clamp(30px,5.2vw,44px);font-weight:800}
+h2{font-size:clamp(24px,3.8vw,32px);font-weight:750}
+h3{font-size:18px;margin:0 0 6px;line-height:1.3}
+p{margin:0 0 14px;max-width:65ch}
+.lead{font-size:19.5px;color:var(--ink)}
+.muted{color:var(--muted)}
+.small{font-size:14.5px}
+ul.clean{list-style:none;padding:0;margin:0 0 14px;display:grid;gap:10px}
+ul.clean li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+ul.clean li::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--blue);margin-top:9px;justify-self:center}
+.stack{display:grid;gap:16px}
+.panel{background:var(--surface);border-radius:var(--r);padding:18px 20px}
+.quote{border-left:4px solid var(--blue);padding:4px 0 4px 18px;font-size:19px;margin:6px 0 18px;max-width:60ch}
+.quote cite{display:block;font-size:13.5px;color:var(--muted);font-style:normal;margin-top:6px}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--plum-soft);color:var(--plum)}
+.callout{border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:grid;gap:4px}
+.callout.plum{border-color:var(--plum)}
+.big-num{font-size:48px;font-weight:800;line-height:1;color:var(--blue-ink);font-variant-numeric:tabular-nums}
+/* story */
+.phone{background:var(--ink);color:var(--paper);border-radius:22px;padding:22px 22px 24px;max-width:26rem;margin:6px 0 22px;position:relative}
+.phone .time{font-size:13px;opacity:.7;font-variant-numeric:tabular-nums}
+.phone .caller{font-size:22px;font-weight:700;margin:6px 0 2px}
+.phone .sub{font-size:14px;opacity:.75}
+.phone .pulse{width:12px;height:12px;border-radius:50%;background:var(--blue);display:inline-block;margin-right:8px;animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,184,233,.6)}70%{box-shadow:0 0 0 12px rgba(0,184,233,0)}100%{box-shadow:0 0 0 0 rgba(0,184,233,0)}}
+.speech{background:var(--surface);border-radius:4px 16px 16px 16px;padding:16px 18px;font-size:18px;max-width:60ch;margin-bottom:12px}
+/* level scale */
+.levels{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0 18px}
+.lv{border-radius:8px;padding:12px 8px;text-align:center;background:var(--surface);color:var(--muted);font-weight:700;font-size:15px}
+.lv small{display:block;font-weight:500;font-size:12px;margin-top:2px}
+.lv.l4{background:var(--amber-soft);color:var(--amber);outline:2px solid var(--amber)}
+.lv.l5{background:var(--red-soft);color:var(--red);outline:2px solid var(--red)}
+/* accordion */
+.acc{border-top:1px solid var(--line)}
+.acc details{border-bottom:1px solid var(--line)}
+.acc summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;padding:14px 2px;font-weight:650;font-size:17.5px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";font-weight:400;font-size:24px;line-height:1;color:var(--blue-ink)}
+.acc details[open] summary::after{content:"–"}
+.acc .body{padding:0 2px 16px}
+.acc summary:focus-visible{outline:2px solid var(--blue-ink);outline-offset:2px}
+/* stages */
+.stages{display:grid;gap:0;margin:8px 0 14px;counter-reset:st}
+.stage{display:grid;grid-template-columns:44px 1fr;gap:14px;position:relative;padding-bottom:18px}
+.stage::before{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.stage:last-child::before{display:none}
+.stage .dot{width:44px;height:44px;border-radius:50%;background:var(--blue);color:var(--on-blue);display:grid;place-items:center;font-weight:800;font-size:18px}
+.stage .who{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.stage h3{margin:2px 0 4px}
+.clock{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:650;color:var(--blue-ink);background:var(--blue-soft);border-radius:999px;padding:2px 10px;font-variant-numeric:tabular-nums;margin-bottom:6px}
+.stage details summary{cursor:pointer;color:var(--blue-ink);font-size:14.5px;font-weight:600}
+.stage details ul{margin:8px 0 0;padding-left:20px;font-size:15px}
+/* choice */
+.choices{display:grid;gap:10px;margin:14px 0}
+.choice{all:unset;box-sizing:border-box;cursor:pointer;border:1.5px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;font-size:16.5px;background:var(--paper);transition:border-color .15s,background .15s}
+.choice:hover{border-color:var(--blue)}
+.choice:focus-visible{outline:2px solid var(--blue-ink);outline-offset:2px}
+.choice .k{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:14px;color:var(--muted)}
+.choice.picked{border-color:var(--blue-ink);background:var(--blue-soft)}
+.choice.right{border-color:var(--green);background:var(--green-soft)}
+.choice.right .k{background:var(--green);border-color:var(--green);color:var(--paper)}
+.choice.wrong{border-color:var(--red);background:var(--red-soft)}
+.choice.wrong .k{background:var(--red);border-color:var(--red);color:var(--paper)}
+.choice[disabled]{cursor:default}
+.feedback{border-radius:var(--r);padding:16px 18px;background:var(--surface);display:grid;gap:6px}
+.feedback .verdict{font-weight:750;font-size:17.5px}
+.feedback .verdict.ok{color:var(--green)}
+.feedback .verdict.no{color:var(--red)}
+.keylearn{border-top:1px solid var(--line);padding-top:10px;margin-top:4px;font-weight:600}
+.facts{margin:0 0 6px;padding-left:20px}
+.scenario-card{border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin-bottom:6px}
+.scenario-card .meta{font-size:13px;color:var(--muted);margin-bottom:6px;display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:var(--surface);border-radius:999px;padding:2px 9px;color:var(--muted)}
+/* match */
+.match{display:grid;gap:12px;margin:12px 0}
+.mrow{display:grid;grid-template-columns:1fr minmax(0,15rem);gap:12px;align-items:center;border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.mrow.ok{border-color:var(--green);background:var(--green-soft)}
+.mrow.bad{border-color:var(--red);background:var(--red-soft)}
+.mrow select{font:inherit;font-size:15.5px;padding:8px 10px;border-radius:8px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);width:100%}
+.mrow .why{grid-column:1/-1;font-size:14.5px;color:var(--muted)}
+@media (max-width:560px){.mrow{grid-template-columns:1fr}}
+/* tabs */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
+.tab{all:unset;cursor:pointer;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);font-size:15px;font-weight:600}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tab:focus-visible{outline:2px solid var(--blue-ink);outline-offset:2px}
+.docs{display:grid;gap:8px}
+.doc{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;flex-wrap:wrap}
+.doc a{color:var(--blue-ink);font-weight:650}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:700;font-size:16px;background:var(--blue);color:var(--on-blue);text-decoration:none;text-align:center}
+.btn:hover{filter:brightness(1.05)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn[disabled]{opacity:.4;cursor:default}
+.btn:focus-visible{outline:2px solid var(--blue-ink);outline-offset:3px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+footer.nav{position:sticky;bottom:0;background:var(--paper);border-top:1px solid var(--line);padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px))}
+.nav-row{max-width:46rem;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.count{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.draft{background:var(--amber-soft);color:var(--amber);font-size:13.5px;font-weight:600;text-align:center;padding:6px 16px}
+.cover-meta{display:flex;gap:18px;flex-wrap:wrap;margin:6px 0 22px;color:var(--muted);font-size:15px}
+.cover-meta b{color:var(--ink)}
+.toc{display:grid;gap:0;border-top:1px solid var(--line);margin:4px 0 22px}
+.toc div{display:grid;grid-template-columns:2.2rem 1fr auto;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:16px}
+.toc span:first-child{color:var(--blue-ink);font-weight:700;font-variant-numeric:tabular-nums}
+.toc span:last-child{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:12px}
+.stat{border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:grid;gap:4px;align-content:start}
+.stat .v{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--blue-ink);line-height:1.1}
+.stat .l{font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:560px){body{font-size:16.5px}.levels{grid-template-columns:repeat(5,minmax(0,1fr))}.lv{padding:10px 2px;font-size:13px}.lv small{font-size:10.5px}.mod-title{display:none}.seg .lab{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="app" id="app">
+  <div class="draft">Draft for review: not yet approved for Trustees</div>
+  <header class="top">
+    <div class="top-row">
+      <div class="brand" id="brand"></div>
+      <div class="mod-title" id="modTitle"></div>
+      <div class="timeleft" id="timeleft"></div>
+    </div>
+    <nav class="segs" id="segs" aria-label="Sections"></nav>
+  </header>
+  <main><section class="screen" id="screen" aria-live="polite"></section></main>
+  <footer class="nav">
+    <div class="nav-row">
+      <button class="btn ghost" id="back" type="button">Back</button>
+      <span class="count" id="count"></span>
+      <button class="btn" id="next" type="button">Next</button>
+    </div>
+  </footer>
+</div>
+
+<script>
+// ================= EDIT HERE =================
+const MODULE_CONFIG = {
+  serviceName: "Alder House",   // Case-study service working name (George to confirm)
+  formUrl: "",                  // Optional: Microsoft Forms link for completion
+  logoSrc: "logo.svg",
+  docs: {
+    reserves: "",               // Bridge Support Reserves Policy on the Trustees' site
+    cc15: "https://www.gov.uk/government/publications/charity-governance-finance-and-resilience-15-questions-trustees-should-ask/charity-trustee-meetings-15-questions-you-should-ask",
+    cc12: "https://www.gov.uk/government/publications/improving-your-charitys-finances-cc12"
+  }
+};
+// =============================================
+
+const MODULE = {
+  id: "finance-primer-draft-v1",
+  title: "Is the money safe? A primer",
+  minutes: 8,
+  config: MODULE_CONFIG,
+  sections: [
+  { name: "Why it matters", mins: 1, screens: [
+    { type: "cover", eyebrow: "Trustee training · Optional, before Session 3",
+      title: "Is the money safe?",
+      lead: "A short primer for Trustees who don't read accounts for a living. It covers four numbers worth watching, the money risks on our Key Risks Register, and the questions that get useful answers." },
+    { type: "html", html: `
+      <p class="eyebrow">Why it matters</p>
+      <h2>A charity can be profitable on paper and still run out of cash</h2>
+      <p class="lead">At {serviceName}, two flats sit empty for three months and a commissioner pays two months late. Nothing has gone wrong with the service, but the bank balance is falling fast.</p>
+      <p>Managing the charity's resources responsibly is one of the six core Trustee duties in the Charity Commission's <i>The essential trustee</i> (CC3). You don't need to be an accountant to meet it. You do need to know which numbers to look at and what to ask.</p>
+      <p class="muted small">Three of your fellow Trustees are chartered accountants. Session 3 is built so you hear this from them too.</p>` }
+  ]},
+  { name: "Four numbers", mins: 2, screens: [
+    { type: "html", html: `
+      <p class="eyebrow">Four numbers</p>
+      <h2>What to look for in the finance report</h2>
+      <div class="grid2">
+        <div class="stat"><span class="l">Surplus or deficit</span><span class="small">Income minus spending for the period. It tells you whether we're living within our means, <b>but not whether we can pay this month's wages</b>.</span></div>
+        <div class="stat"><span class="l">Cash</span><span class="small">What's actually in the bank. Wages, rent to landlords and suppliers are paid from cash, not from surplus.</span></div>
+        <div class="stat"><span class="l">Debtors</span><span class="small">Money we're owed but haven't received, mostly from commissioners. A high debtor figure is cash that's stuck.</span></div>
+        <div class="stat"><span class="l">Reserves, in months</span><span class="small">Unrestricted funds we could draw on, shown as months of running costs. It's the cushion if income stops.</span></div>
+      </div>
+      <div class="panel" style="margin-top:16px"><h3>Read them together</h3><p class="small" style="margin:0">A surplus with rising debtors and falling cash is a warning sign. Reserves of around one month mean a short delay in payments can quickly become a real problem.</p></div>
+      <p class="small muted" style="margin-top:12px">[Draft note: Mukesh Sharma may want to add Bridge's current figures here. Leave them out if the module is hosted publicly.]</p>` },
+    { type: "scenario", qid: "f1", eyebrow: "Four numbers · Check yourself", title: "Which one worries you most?", chips: ["Illustrative figures"],
+      setup: `<p style="margin:0">This quarter's report shows a <b>£40k surplus</b>. Debtors have risen from £500k to £800k, cash has fallen from £900k to £650k, and reserves are flat at 1.2 months.</p>`,
+      question: "Which is the most important thing to ask about?",
+      options: ["The surplus. It's lower than budget.","The jump in debtors and the fall in cash. Who owes us, and when will they pay?","Reserves. They should be higher."],
+      correct: 1,
+      feedback: `<p style="margin:0">The surplus looks fine, but £300k more is owed to us and cash has fallen by £250k. That gap is the immediate risk. Reserves matter too, but they haven't moved this quarter.</p>`,
+      key: "Surplus tells you about the year. Cash and debtors tell you about next month." }
+  ]},
+  { name: "Our money risks", mins: 2, screens: [
+    { type: "html", html: `
+      <p class="eyebrow">Our money risks</p>
+      <h2>The four financial Key Risks</h2>
+      <p>Bridge Support's Key Risks Register lists four financial risks, KR1 to KR4. This is what each looks like in practice.</p>
+      <div class="acc">
+        <details><summary>KR1 · Cost inflation</summary><div class="body"><p>Wages, energy and rents rise faster than contract uplifts. Most of our income is fixed-price contracts, so higher costs come straight out of the margin.</p></div></details>
+        <details><summary>KR2 · Voids</summary><div class="body"><p>Empty units still cost rent but bring in no housing benefit or service income. A few voids across the estate add up quickly.</p></div></details>
+        <details><summary>KR3 · Contract pricing</summary><div class="body"><p>A contract priced too low at the start, or one that isn't uplifted, can lose money every month for years. It's hard to fix mid-contract.</p></div></details>
+        <details><summary>KR4 · Reserves</summary><div class="body"><p>If reserves are thin, we have little room to absorb a late payment, a lost contract or an unexpected cost.</p></div></details>
+      </div>
+      <p class="small muted" style="margin-top:12px">[Draft note: check these descriptions against the Key Risks Register wording, then add each risk's current rating and owner.]</p>` }
+  ]},
+  { name: "The 15 questions", mins: 1, screens: [
+    { type: "html", html: `
+      <p class="eyebrow">The 15 questions</p>
+      <h2>The Commission's checklist for Trustees</h2>
+      <p>The Charity Commission publishes 15 questions every Trustee board should ask about governance, finance and resilience. These five matter most for Bridge Support:</p>
+      <ul class="clean">
+        <li>"Are we financially strong enough to continue to provide services for our beneficiaries?"</li>
+        <li>"What is our policy on reserves?"</li>
+        <li>"Have we reviewed our contractual commitments?"</li>
+        <li>"Have we reviewed any contracts to deliver public services?"</li>
+        <li>"Do we have adequate safeguards in place to prevent fraud?"</li>
+      </ul>
+      <div class="docs" style="margin-top:16px">
+        <div class="doc"><span>All 15 questions (Charity Commission)</span><a data-doc="cc15">Open</a></div>
+        <div class="doc"><span>Improving your charity's finances (CC12)</span><a data-doc="cc12">Open</a></div>
+        <div class="doc"><span>Bridge Support Reserves Policy</span><a data-doc="reserves">Open</a></div>
+      </div>` }
+  ]},
+  { name: "Good questions", mins: 1, screens: [
+    { type: "scenario", qid: "q1", eyebrow: "Good questions · 1 of 2", title: "Asking about a new contract", chips: ["Board meeting"],
+      setup: `<p style="margin:0">The executive brings a new contract to the Board for approval. It is worth £600k a year for three years.</p>`,
+      question: "Which question is most useful?",
+      options: ["Is this a good opportunity for us?","What does it cost us to deliver, what uplift is built in, and what happens to the margin if costs rise 4% a year?","Has finance looked at it?"],
+      correct: 1,
+      feedback: `<p style="margin:0">It's specific, it can be answered with numbers, and it tests KR1 and KR3 directly. The other two invite a reassuring yes.</p>`,
+      key: "Good questions ask for a number, a comparison or a 'what if'." },
+    { type: "scenario", qid: "q2", eyebrow: "Good questions · 2 of 2", title: "Asking about cash", chips: ["Board meeting"],
+      setup: `<p style="margin:0">The finance report says debtors are high "due to timing" of commissioner payments.</p>`,
+      question: "Which question is most useful?",
+      options: ["Are we worried about this?","Which commissioners owe the most, how overdue is it, and what's our lowest cash point in the next three months if they don't pay?","Can we chase them harder?"],
+      correct: 1,
+      feedback: `<p style="margin:0">"Timing" can hide a real problem. Asking for the aged debt and a cash low point turns a reassurance into something the Board can actually assess.</p>`,
+      key: "When you hear 'timing', ask 'until when?'" }
+  ]},
+  { name: "Finish", mins: 1, screens: [
+    { type: "html", html: `
+      <p class="eyebrow">Finish</p>
+      <h2>Bring three questions to Session 3</h2>
+      <ul class="clean" style="margin-bottom:22px">
+        <li>One about <b>cash</b>: when is our lowest point, and why?</li>
+        <li>One about <b>a contract</b>: is it covering its costs, and will it next year?</li>
+        <li>One about <b>reserves</b>: how many months do we hold, and is that enough for the risks we carry?</li>
+      </ul>
+      <div class="panel"><h3>Mark this as done</h3><p class="small">Submitting the short form records that you've completed the primer.</p><a class="btn" data-form>Open the form</a></div>` }
+  ]}
+  ]
+};
+
+</script>
+<script>
+(function(){
+  const M = MODULE, C = M.config;
+  const KEY = "bridge-module-" + M.id;
+  const store = {
+    get(){ try{ return JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){ return {}; } },
+    set(v){ try{ localStorage.setItem(KEY, JSON.stringify(v)); }catch(e){} }
+  };
+  const fill = s => String(s).replace(/\{(\w+)\}/g,(m,k)=> (k in C ? C[k] : m));
+  // flatten screens
+  const screens = [];
+  M.sections.forEach((sec,si)=> sec.screens.forEach(sc=> screens.push(Object.assign({sec:si}, sc))));
+  const state = store.get();
+  let i = Math.min(state.i||0, screens.length-1);
+  const answers = state.a || {};
+  const $ = id => document.getElementById(id);
+
+  // brand
+  const brand = $("brand");
+  const wm = () => { brand.innerHTML = '<span class="wordmark"><i aria-hidden="true"></i>Bridge Support</span>'; };
+  if (C.logoSrc){ const img = new Image(); img.alt = "Bridge Support"; img.onload=()=>{brand.innerHTML="";brand.appendChild(img);}; img.onerror = wm; wm(); img.src = C.logoSrc; } else wm();
+  $("modTitle").textContent = M.title;
+
+  // segments
+  const segs = $("segs");
+  M.sections.forEach((sec,si)=>{
+    const d = document.createElement("div"); d.className="seg";
+    d.innerHTML = '<button type="button" aria-label="Go to '+sec.name+'"><div class="bar"><span></span></div><div class="lab">'+sec.name+'</div></button>';
+    d.querySelector("button").onclick = ()=>{ const t = screens.findIndex(s=>s.sec===si); go(t); };
+    segs.appendChild(d);
+  });
+
+  function progress(){
+    M.sections.forEach((sec,si)=>{
+      const idx = screens.map((s,k)=>s.sec===si?k:-1).filter(k=>k>=0);
+      const done = idx.filter(k=>k<=i).length;
+      const el = segs.children[si];
+      el.querySelector(".bar span").style.width = (100*done/idx.length)+"%";
+      el.classList.toggle("cur", screens[i].sec===si);
+    });
+    const left = M.sections.slice(screens[i].sec).reduce((a,s)=>a+s.mins,0);
+    $("timeleft").textContent = i===0 ? M.minutes+" min" : "about "+left+" min left";
+    $("count").textContent = (i+1)+" / "+screens.length;
+    $("back").disabled = i===0;
+    $("next").textContent = i===screens.length-1 ? "Back to start" : (i===0 ? (state.i>0 ? "Start" : "Start") : "Next");
+  }
+
+  function go(n){
+    i = Math.max(0, Math.min(screens.length-1, n));
+    store.set({i, a:answers});
+    render(); window.scrollTo(0,0);
+  }
+  $("back").onclick = ()=>go(i-1);
+  $("next").onclick = ()=> i===screens.length-1 ? go(0) : go(i+1);
+  document.addEventListener("keydown", e=>{
+    if (e.target.closest("select,input,textarea")) return;
+    if (e.key==="ArrowRight") go(i+1); if (e.key==="ArrowLeft") go(i-1);
+  });
+
+  const R = {
+    html(sc, el){ el.innerHTML = fill(sc.html); },
+    cover(sc, el){
+      const resume = (state.i||0) > 0;
+      el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h1>'+fill(sc.title)+'</h1><p class="lead">'+fill(sc.lead)+'</p>'+
+        '<div class="cover-meta"><span><b>'+M.minutes+' minutes</b></span><span><b>'+M.sections.length+'</b> short parts</span><span>Pause any time: your place is saved on this device</span></div>'+
+        '<div class="toc">'+M.sections.map((s,k)=>'<div><span>'+(k+1)+'</span><span>'+s.name+'</span><span>'+s.mins+' min</span></div>').join("")+'</div>'+
+        (resume ? '<div class="row"><button class="btn" type="button" id="resumeBtn">Resume where you left off</button><span class="muted small">or press Start to begin again</span></div>' : '');
+      if (resume){ const t = state.i; el.querySelector("#resumeBtn").onclick = ()=>go(t); }
+    },
+    scenario(sc, el){
+      const id = sc.qid, picked = answers[id];
+      const letters = "ABCD";
+      el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2>'+
+        '<div class="scenario-card"><div class="meta">'+(sc.chips||[]).map(c=>'<span class="chip">'+fill(c)+'</span>').join("")+'</div>'+fill(sc.setup)+'</div>'+
+        '<p style="margin-top:16px"><b>'+fill(sc.question)+'</b></p><div class="choices" role="group" aria-label="Answer options"></div><div class="fb"></div>';
+      const box = el.querySelector(".choices"), fb = el.querySelector(".fb");
+      sc.options.forEach((o,k)=>{
+        const b = document.createElement("button"); b.type="button"; b.className="choice";
+        b.innerHTML = '<span class="k">'+letters[k]+'</span><span>'+fill(o)+'</span>';
+        b.onclick = ()=>{ answers[id]=k; store.set({i,a:answers}); R.scenario(sc, el); };
+        box.appendChild(b);
+      });
+      if (picked !== undefined){
+        [...box.children].forEach((b,k)=>{ b.disabled = true; if (k===sc.correct) b.classList.add("right"); else if (k===picked) b.classList.add("wrong"); });
+        const ok = picked===sc.correct;
+        fb.innerHTML = '<div class="feedback"><div class="verdict '+(ok?"ok":"no")+'">'+(ok? (sc.okLabel||"That matches the policy.") : (sc.noLabel||"Not quite. The answer is "+letters[sc.correct]+"."))+'</div>'+fill(sc.feedback)+'<div class="keylearn">'+fill(sc.key)+'</div>'+
+          '<div><button class="btn ghost" type="button" style="padding:8px 16px;font-size:14.5px">Try again</button></div></div>';
+        fb.querySelector("button").onclick = ()=>{ delete answers[id]; store.set({i,a:answers}); R.scenario(sc, el); };
+      }
+    },
+    match(sc, el){
+      el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2><p>'+fill(sc.intro)+'</p><div class="match"></div><div class="row"><button class="btn" type="button" id="chk">Check my answers</button><span class="muted small" id="mres" aria-live="polite"></span></div>';
+      const box = el.querySelector(".match");
+      sc.rows.forEach((r,k)=>{
+        const d = document.createElement("div"); d.className="mrow";
+        const sid = "m-"+sc.qid+"-"+k;
+        d.innerHTML = '<label for="'+sid+'">'+fill(r.duty)+'</label><select id="'+sid+'"><option value="">Choose who…</option>'+sc.roles.map(x=>'<option>'+x+'</option>').join("")+'</select><div class="why" hidden></div>';
+        box.appendChild(d);
+      });
+      el.querySelector("#chk").onclick = ()=>{
+        let n=0;
+        sc.rows.forEach((r,k)=>{
+          const d = box.children[k], v = d.querySelector("select").value, ok = v===r.who; if (ok) n++;
+          d.classList.toggle("ok", ok); d.classList.toggle("bad", !ok);
+          const w = d.querySelector(".why"); w.hidden=false; w.innerHTML = (ok?"Correct. ":"It's <b>"+r.who+"</b>. ")+fill(r.why);
+        });
+        el.querySelector("#mres").textContent = n+" of "+sc.rows.length+" correct"+(n===sc.rows.length?". Well done.":". Read the notes, then carry on.");
+      };
+    },
+    tabs(sc, el){
+      el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2><p>'+fill(sc.intro)+'</p><div class="tabs" role="tablist"></div><div class="tabbody" role="tabpanel"></div>';
+      const tl = el.querySelector(".tabs"), tb = el.querySelector(".tabbody");
+      const pick = k => { [...tl.children].forEach((t,j)=>t.setAttribute("aria-selected", j===k)); tb.innerHTML = fill(sc.tabs[k].html); };
+      sc.tabs.forEach((t,k)=>{ const b=document.createElement("button"); b.type="button"; b.className="tab"; b.setAttribute("role","tab"); b.textContent=t.label; b.onclick=()=>pick(k); tl.appendChild(b); });
+      pick(0);
+    }
+  };
+
+  function render(){
+    const sc = screens[i], el = $("screen");
+    (R[sc.type]||R.html)(sc, el);
+    el.querySelectorAll("[data-doc]").forEach(a=>{
+      const url = C.docs && C.docs[a.dataset.doc];
+      if (url){ a.href = url; a.target="_blank"; a.rel="noopener"; } else { a.replaceWith(Object.assign(document.createElement("span"),{className:"muted small",textContent:"Link to be added"})); }
+    });
+    el.querySelectorAll("[data-form]").forEach(a=>{
+      if (C.formUrl){ a.href = C.formUrl; a.target="_blank"; a.rel="noopener"; }
+      else { a.removeAttribute("href"); a.setAttribute("aria-disabled","true"); a.style.opacity=".45"; a.title="Knowledge check link not set yet"; }
+    });
+    progress();
+  }
+  render();
+})();
+</script>
+
+</body>
+</html>
