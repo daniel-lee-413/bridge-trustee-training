@@ -58,8 +58,8 @@ p{margin:0 0 14px;max-width:65ch}
 .muted{color:var(--muted)}
 .small{font-size:14.5px}
 ul.clean{list-style:none;padding:0;margin:0 0 14px;display:grid;gap:10px}
-ul.clean li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
-ul.clean li::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--blue);margin-top:9px;justify-self:center}
+ul.clean li{position:relative;padding-left:32px}
+ul.clean li::before{content:"";position:absolute;left:6px;top:.62em;width:10px;height:10px;border-radius:50%;background:var(--blue)}
 .stack{display:grid;gap:16px}
 .panel{background:var(--surface);border-radius:var(--r);padding:18px 20px}
 .quote{border-left:4px solid var(--blue);padding:4px 0 4px 18px;font-size:19px;margin:6px 0 18px;max-width:60ch}
@@ -160,6 +160,59 @@ footer.nav{position:sticky;bottom:0;background:var(--paper);border-top:1px solid
 .stat .v{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--blue-ink);line-height:1.1}
 .stat .l{font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
 @media (max-width:560px){body{font-size:16.5px}.levels{grid-template-columns:repeat(5,minmax(0,1fr))}.lv{padding:10px 2px;font-size:13px}.lv small{font-size:10.5px}.mod-title{display:none}.seg .lab{display:none}}
+
+/* role picker */
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:12px;margin:16px 0}
+.role{all:unset;box-sizing:border-box;cursor:pointer;border:1.5px solid var(--line);border-radius:var(--r);padding:16px 18px;display:grid;gap:4px;align-content:start;background:var(--paper)}
+.role:hover{border-color:var(--blue)}
+.role:focus-visible{outline:2px solid var(--blue-ink);outline-offset:2px}
+.role b{font-size:17.5px}
+.role span{font-size:14.5px;color:var(--muted)}
+.role[aria-pressed="true"]{border-color:var(--blue-ink);background:var(--blue-soft);box-shadow:inset 0 0 0 1px var(--blue-ink)}
+.rolechip{justify-self:start;width:fit-content;display:inline-flex;gap:6px;align-items:center;font-size:13px;font-weight:700;background:var(--blue-soft);color:var(--blue-ink);border-radius:999px;padding:3px 10px}
+/* quick-fire */
+.qf{border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:16px;max-width:38rem}
+.qf-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.dots{display:flex;gap:6px}
+.dots i{width:22px;height:6px;border-radius:3px;background:var(--line)}
+.dots i.ok{background:var(--green)} .dots i.no{background:var(--red)} .dots i.cur{background:var(--blue)}
+.qf-card{font-size:20px;font-weight:600;line-height:1.4;min-height:4.2em}
+.qf-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qf-btn{all:unset;box-sizing:border-box;cursor:pointer;text-align:center;padding:14px 10px;border-radius:var(--r);font-weight:700;border:1.5px solid var(--line)}
+.qf-btn:hover{border-color:var(--blue)}
+.qf-btn:focus-visible{outline:2px solid var(--blue-ink);outline-offset:2px}
+.qf-btn.s{background:var(--red-soft);color:var(--red);border-color:transparent}
+.qf-btn.n{background:var(--green-soft);color:var(--green);border-color:transparent}
+.qf-fb{border-radius:var(--r);padding:12px 14px;background:var(--surface);font-size:15.5px}
+.qf-fb b.ok{color:var(--green)} .qf-fb b.no{color:var(--red)}
+.qf-score{font-size:44px;font-weight:800;color:var(--blue-ink);line-height:1;font-variant-numeric:tabular-nums}
+/* ordering */
+.ord-pool,.ord-seq{display:grid;gap:8px}
+.ord-item{all:unset;box-sizing:border-box;cursor:pointer;border:1.5px dashed var(--line);border-radius:var(--r);padding:12px 14px;font-weight:600;font-size:16px}
+.ord-item:hover{border-color:var(--blue)}
+.ord-item:focus-visible{outline:2px solid var(--blue-ink);outline-offset:2px}
+.ord-item[disabled]{opacity:.35;cursor:default;text-decoration:line-through}
+.ord-slot{display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:center;border:1.5px solid var(--line);border-radius:var(--r);padding:10px 14px;min-height:48px;font-weight:600}
+.ord-slot .n{width:30px;height:30px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-weight:800;color:var(--muted)}
+.ord-slot.filled .n{background:var(--blue);color:var(--on-blue)}
+.ord-slot.ok{border-color:var(--green);background:var(--green-soft)} .ord-slot.ok .n{background:var(--green);color:var(--paper)}
+.ord-slot.no{border-color:var(--red);background:var(--red-soft)} .ord-slot.no .n{background:var(--red);color:var(--paper)}
+.ord-slot small{display:block;font-weight:500;color:var(--muted);font-size:13.5px}
+.ord-wrap{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+@media (max-width:640px){.ord-wrap{grid-template-columns:1fr}}
+/* flip cards */
+.flips{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:12px;margin:14px 0 20px}
+.flip{all:unset;box-sizing:border-box;cursor:pointer;perspective:900px;min-height:150px;display:block}
+.flip:focus-visible{outline:2px solid var(--blue-ink);outline-offset:3px;border-radius:var(--r)}
+.flip .in{display:grid;width:100%;min-height:150px;transition:transform .45s;transform-style:preserve-3d}
+.flip[aria-pressed="true"] .in{transform:rotateY(180deg)}
+.flip .f,.flip .b{grid-area:1/1;border-radius:var(--r);padding:16px 18px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:8px}
+.flip .f{background:var(--ink);color:var(--paper);font-weight:700;font-size:17.5px;line-height:1.35}
+.flip .f small{font-weight:600;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.7}
+.flip .b{background:var(--blue-soft);color:var(--ink);transform:rotateY(180deg);font-size:15.5px;line-height:1.45}
+.flip .b small{font-size:12.5px;color:var(--blue-ink);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+@media (prefers-reduced-motion:reduce){.flip .in{transition:none}}
+.scorebar{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:12px;margin:10px 0 6px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -205,14 +258,26 @@ const MODULE_CONFIG = {
 const MODULE = {
   id: "sir-trustees-v2",
   title: "Serious incident reporting for Trustees",
-  minutes: 18,
+  minutes: 20,
   config: MODULE_CONFIG,
+  roles: [
+    { key: "trustee", label: "Trustee", as: "a Trustee", desc: "On the Board, not on the Risk & Safety Sub-Committee.",
+      actions: ["pass anything you hear straight to the COO, or the CEO if it concerns the COO","not report to the Commission yourself","expect every decision, including borderline ones not reported, at the next Board"] },
+    { key: "chair", label: "Chair of Trustees", as: "the Chair", desc: "Briefed by the CEO within 24 hours of escalation.",
+      actions: ["listen to the CEO's briefing and ask questions","raise any concerns about the process or the recommendation","leave the decision to the Sub-Committee, and make sure the briefing is recorded"] },
+    { key: "rsscChair", label: "Risk & Safety Sub-Committee Chair", as: "the Sub-Committee Chair", desc: "Notified by the COO; convenes the committee.",
+      actions: ["convene the Sub-Committee within 5 working days, sooner if urgent","use the fast-track only for the four conditions, consulting at least one member","record the decision and the reasons, and instruct the COO if it's to be reported"] },
+    { key: "rsscMember", label: "Risk & Safety Sub-Committee member", as: "a Sub-Committee member", desc: "Makes the reporting decision with the committee.",
+      actions: ["read the committee paper and full assessment","weigh urgency, impact, media interest and the Commission's guidance","decide: report, don't report, or ask for more information, and see it minuted"] }
+  ],
   sections: [
   { name: "Why it matters", mins: 2, screens: [
     { type: "cover",
       eyebrow: "Trustee training · Before Session 2",
       title: "When something goes seriously wrong",
       lead: "What counts as a serious incident at Bridge Support, who decides whether we tell the Charity Commission, and what your part is when the phone rings." },
+    { type: "role", eyebrow: "Before we start", title: "Which seat are you in?",
+      intro: "Pick the role closest to yours. The tips, one of the situations and the final screen will be tailored to it. You can come back and change it." },
     { type: "html", html: `
       <p class="eyebrow">Why it matters</p>
       <div class="phone" aria-label="Incoming call">
@@ -324,13 +389,23 @@ const MODULE = {
         { duty: "Hold ultimate responsibility, and hear every decision, including borderline ones not reported", who: "All Trustees", why: "Delegating the decision doesn't delegate the responsibility." }
       ] }
   ]},
-  { name: "See it in action", mins: 6, screens: [
+  { name: "See it in action", mins: 7, screens: [
     { type: "html", html: `
       <p class="eyebrow">See it in action</p>
       <h2>Four situations at {serviceName}</h2>
       <p class="lead">{serviceName} is the fictional supported living service from our case study. The people and events are invented. The process and policies are Bridge Support's real ones.</p>
       <p>For each situation, decide whether it's likely to reach the SIR threshold. You won't make this call alone in real life, since the Sub-Committee decides. But a Trustee who can recognise "serious" asks better questions.</p>
       <p class="muted small">You can change your answer and read the reasoning each time.</p>` },
+    { type: "quickfire", qid: "qf", eyebrow: "See it in action · Warm-up", title: "Serious or not?",
+      intro: "Six quick cards. Go with your instinct, then read why. The four longer situations follow.",
+      cards: [
+        { text: "A resident's £150 phone is taken from the lounge at {serviceName}. The police are told.", serious: false, why: "A small loss, handled through normal incident and police reporting. Nothing significant for Bridge Support." },
+        { text: "An audit finds a manager diverted £32,000 through false invoices over a year.", serious: true, why: "This is fraud, and above the Commission's £25,000 rough guide for financial loss." },
+        { text: "An email with a resident's first name goes to the wrong Bridge colleague and is deleted the same day.", serious: false, why: "A minor internal slip with no real risk of harm. Log it and learn from it." },
+        { text: "Police open an investigation into a support worker over an allegation of harm to a resident.", serious: true, why: "A safeguarding allegation under police investigation. This is one of the Commission's main categories." },
+        { text: "A resident trips on a step and bruises a knee. First aid is given and no further treatment is needed.", serious: false, why: "A low-level accident, recorded under the Accident and Incident Policy." },
+        { text: "A local paper is preparing a story claiming poor conditions at one of our services.", serious: true, why: "Likely media attention is something the Commission specifically says to consider reporting, even before all the facts are known." }
+      ] },
     { type: "scenario", qid: "s1", eyebrow: "Situation 1 of 4", title: "A concern raised by a family member", chips: ["Safeguarding","{serviceName}"],
       setup: `<p>A resident's relative phones the service manager. They say a support worker made comments about the resident's appearance during a visit, and the resident was uncomfortable.</p>
         <p style="margin-bottom:6px">Bridge Support immediately:</p><ul class="facts"><li>suspends the support worker pending investigation</li><li>refers to the local authority safeguarding team</li><li>keeps the family informed</li></ul>
@@ -363,11 +438,18 @@ const MODULE = {
       options: ["You and the CEO decide tonight whether to report, since the Sub-Committee can't meet in time","You note the briefing and raise any concerns. With media attention imminent, the Sub-Committee Chair can use the fast-track, consulting at least one other member","Hold it for the next Board meeting, when all Trustees can discuss it"],
       correct: 1,
       feedback: `<p style="margin:0">Since July 2026, the CEO's call to the Chair is a briefing. The Chair's job is to understand the case and raise concerns, not to make the reporting decision. Imminent media attention is one of the four fast-track conditions. The Sub-Committee Chair records why the fast-track was used, the full committee ratifies it within 5 working days, and the next Board is told.</p>`,
-      key: "Urgency doesn't move the decision to the Chair. It moves it to the fast-track." }
+      key: "Urgency doesn't move the decision to the Chair. It moves it to the fast-track.",
+      roleNotes: {
+        trustee: "You wouldn't be called that night. You'd hear the decision, and why the fast-track was used, at the next Board meeting.",
+        chair: "This is your call. Listen, ask questions, raise concerns, and make sure the briefing is recorded.",
+        rsscChair: "The COO would be notifying you at the same time. With a story due in the morning, this is a fast-track decision: consult at least one member, record your reasons, and get the full committee to ratify within 5 working days.",
+        rsscMember: "You might be the member the Sub-Committee Chair consults tonight, and you'd ratify the decision with the full committee within 5 working days."
+      } }
   ]},
   { name: "When you need this", mins: 2, screens: [
     { type: "tabs", eyebrow: "When you need this", title: "If you're the one who hears first",
-      intro: "What you do depends on your role. Pick yours.",
+      intro: "What you do depends on your role. We've opened yours.",
+      roleTabs: ["trustee","chair","rsscChair","rsscMember"],
       tabs: [
         { label: "Any Trustee", html: `<ul class="clean"><li>If you hear about an incident directly, from staff, a commissioner or the press, pass it straight to the <b>COO</b>. If it concerns the COO, go to the <b>CEO</b>.</li><li>Don't report to the Commission yourself. Our process makes sure it's done once, properly and on the record.</li><li>Expect to hear the outcome of every case at the next Board, including those not reported.</li><li>Keep it confidential, and declare any conflict of interest.</li></ul>` },
         { label: "Chair of Trustees", html: `<ul class="clean"><li>Listen to the CEO's briefing: what happened, the COO's recommendation and any CEO concerns.</li><li>Ask questions and raise any concerns about the process or the recommendation.</li><li>Remember it's a briefing. The decision belongs to the Risk &amp; Safety Sub-Committee.</li><li>Make sure the briefing is recorded: date, method and key points.</li></ul>` },
@@ -391,22 +473,25 @@ const MODULE = {
         <div class="doc"><span>Charity Commission: how to report a serious incident</span><a data-doc="ccGuidance">Open</a></div>
       </div>` }
   ]},
-  { name: "Finish", mins: 1, screens: [
-    { type: "html", html: `
-      <p class="eyebrow">Finish</p>
-      <h2>Five things to remember</h2>
-      <ul class="clean" style="margin-bottom:22px">
-        <li><b>"Significant" means significant for Bridge Support,</b> given the people we support and the work we do.</li>
-        <li><b>Level 4 may reach the threshold. Level 5 always does.</b></li>
-        <li><b>The COO assesses, the CEO briefs the Chair, and the Sub-Committee decides.</b></li>
-        <li><b>The clock matters:</b> 48 hours, 24 hours, 5 working days, 48 hours.</li>
-        <li><b>When in doubt, escalate.</b> Every decision comes back to the Board.</li>
-      </ul>
-      <div class="panel">
-        <h3>Last step: the knowledge check</h3>
-        <p class="small">Seven short questions. When you submit them, your completion is recorded against your name and date, which is how the facilitators know you're ready for Session 2.</p>
-        <a class="btn" data-form>Open the knowledge check</a>
-      </div>` }
+  { name: "Finish", mins: 2, screens: [
+    { type: "order", qid: "ord", eyebrow: "Finish · Check yourself", title: "Put the four stages in order",
+      intro: "Tap the steps in the order they happen.",
+      items: [
+        { label: "COO assesses and recommends", detail: "Within 48 hours of the incident" },
+        { label: "CEO briefs the Chair", detail: "Within 24 hours" },
+        { label: "Sub-Committee decides", detail: "Convened within 5 working days" },
+        { label: "COO reports; Board is told", detail: "Within 48 hours of the decision" }
+      ],
+      shuffle: [2,0,3,1] },
+    { type: "finish", eyebrow: "Finish", title: "How you did",
+      formText: "Seven short questions. When you submit them, your completion is recorded against your name and date, which is how the facilitators know you're ready for Session 2.",
+      cards: [
+        { q: "What does \"significant\" mean?", a: "Significant for Bridge Support, given the people we support, our services, finances and reputation." },
+        { q: "Level 4 or Level 5: which is always treated as reaching the threshold?", a: "Level 5. Level 4 may reach it, and starts the COO's assessment." },
+        { q: "Who makes the final reporting decision?", a: "The Risk & Safety Sub-Committee. The CEO briefs the Chair; it isn't a joint decision." },
+        { q: "What are the four clocks?", a: "48 hours to the CEO, 24 hours to brief the Chair, 5 working days to convene, 48 hours to report." },
+        { q: "You're not sure it's serious. What do you do?", a: "Contact the COO. When in doubt, escalate. Every decision comes back to the Board." }
+      ] }
   ]}
   ]
 };
@@ -428,6 +513,8 @@ const MODULE = {
   let i = Math.min(state.i||0, screens.length-1);
   const answers = state.a || {};
   const $ = id => document.getElementById(id);
+  const save = ()=> store.set({i, a:answers});
+  const roleLabel = ()=>{ const r = (M.roles||[]).find(x=>x.key===answers.role); return r ? (r.as||r.label) : ''; };
 
   // brand
   const brand = $("brand");
@@ -497,7 +584,7 @@ const MODULE = {
       if (picked !== undefined){
         [...box.children].forEach((b,k)=>{ b.disabled = true; if (k===sc.correct) b.classList.add("right"); else if (k===picked) b.classList.add("wrong"); });
         const ok = picked===sc.correct;
-        fb.innerHTML = '<div class="feedback"><div class="verdict '+(ok?"ok":"no")+'">'+(ok? (sc.okLabel||"That matches the policy.") : (sc.noLabel||"Not quite. The answer is "+letters[sc.correct]+"."))+'</div>'+fill(sc.feedback)+'<div class="keylearn">'+fill(sc.key)+'</div>'+
+        fb.innerHTML = '<div class="feedback"><div class="verdict '+(ok?"ok":"no")+'">'+(ok? (sc.okLabel||"That matches the policy.") : (sc.noLabel||"Not quite. The answer is "+letters[sc.correct]+"."))+'</div>'+fill(sc.feedback)+(sc.roleNotes && answers.role && sc.roleNotes[answers.role] ? '<div class="callout" style="margin-top:6px"><span class="rolechip">For you as '+roleLabel()+'</span><p class="small" style="margin:4px 0 0">'+fill(sc.roleNotes[answers.role])+'</p></div>' : '')+'<div class="keylearn">'+fill(sc.key)+'</div>'+
           '<div><button class="btn ghost" type="button" style="padding:8px 16px;font-size:14.5px">Try again</button></div></div>';
         fb.querySelector("button").onclick = ()=>{ delete answers[id]; store.set({i,a:answers}); R.scenario(sc, el); };
       }
@@ -521,13 +608,97 @@ const MODULE = {
         el.querySelector("#mres").textContent = n+" of "+sc.rows.length+" correct"+(n===sc.rows.length?". Well done.":". Read the notes, then carry on.");
       };
     },
+
+    role(sc, el){
+      el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2><p>'+fill(sc.intro)+'</p><div class="roles"></div><p class="muted small" id="rmsg" aria-live="polite"></p>';
+      const box = el.querySelector(".roles");
+      M.roles.forEach(r=>{
+        const b = document.createElement("button"); b.type="button"; b.className="role";
+        b.setAttribute("aria-pressed", answers.role===r.key);
+        b.innerHTML = '<b>'+r.label+'</b><span>'+r.desc+'</span>';
+        b.onclick = ()=>{ answers.role = r.key; save(); R.role(sc, el); };
+        box.appendChild(b);
+      });
+      if (answers.role) el.querySelector("#rmsg").textContent = "Got it. Tips and the final screen will be tailored for "+roleLabel()+". Press Next to carry on.";
+    },
+    quickfire(sc, el){
+      const qa = answers[sc.qid] || (answers[sc.qid] = {});
+      const n = sc.cards.length, done = Object.keys(qa).length;
+      let cur = 0; while (cur < n && qa[cur] !== undefined) cur++;
+      const view = sc._view !== undefined ? sc._view : Math.min(cur, n);
+      const right = Object.keys(qa).filter(k=> qa[k] === sc.cards[k].serious).length;
+      const dots = sc.cards.map((c,k)=>'<i class="'+(qa[k]===undefined ? (k===view?'cur':'') : (qa[k]===c.serious?'ok':'no'))+'"></i>').join("");
+      let body;
+      if (view >= n){
+        body = '<div class="qf-top"><span class="chip">Your score</span><div class="dots">'+dots+'</div></div><div><div class="qf-score">'+right+' / '+n+'</div><p style="margin:8px 0 0">'+(right===n?"All six. You have a good feel for what's serious.": right>=4 ? "Good instincts. Check the ones you missed before the longer situations." : "Worth another go. The longer situations that follow explain the reasoning.")+'</p></div><div class="row"><button class="btn ghost" type="button" id="qfAgain">Try the cards again</button></div>';
+      } else {
+        const c = sc.cards[view], a = qa[view];
+        body = '<div class="qf-top"><span class="chip">Card '+(view+1)+' of '+n+'</span><div class="dots">'+dots+'</div></div><div class="qf-card">'+fill(c.text)+'</div>'+
+          (a===undefined ? '<div class="qf-btns"><button class="qf-btn s" type="button" data-v="1">Likely serious</button><button class="qf-btn n" type="button" data-v="0">Not serious</button></div>'
+           : '<div class="qf-fb"><b class="'+(a===c.serious?'ok':'no')+'">'+(a===c.serious?'Right. ':'Not quite. ')+(c.serious?'Likely serious.':'Not serious.')+'</b> '+fill(c.why)+'</div><div class="row"><button class="btn" type="button" id="qfNext">'+(view===n-1?'See my score':'Next card')+'</button></div>');
+      }
+      el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2><p>'+fill(sc.intro)+'</p><div class="qf">'+body+'</div>';
+      el.querySelectorAll(".qf-btn").forEach(b=> b.onclick = ()=>{ qa[view] = b.dataset.v==="1"; save(); sc._view = view; R.quickfire(sc, el); });
+      const nx = el.querySelector("#qfNext"); if (nx) nx.onclick = ()=>{ sc._view = view+1; R.quickfire(sc, el); };
+      const ag = el.querySelector("#qfAgain"); if (ag) ag.onclick = ()=>{ answers[sc.qid] = {}; sc._view = 0; save(); R.quickfire(sc, el); };
+    },
+    order(sc, el){
+      const seq = answers[sc.qid] || (answers[sc.qid] = []);
+      const full = seq.length === sc.items.length;
+      el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2><p>'+fill(sc.intro)+'</p>'+
+        '<div class="ord-wrap"><div><p class="small muted" style="margin:0 0 6px">Tap each step</p><div class="ord-pool"></div></div><div><p class="small muted" style="margin:0 0 6px">Your order</p><div class="ord-seq"></div></div></div>'+
+        '<div class="row"><button class="btn ghost" type="button" id="ordReset">Start again</button><span class="small" id="ordMsg" aria-live="polite"></span></div>';
+      const pool = el.querySelector(".ord-pool"), sq = el.querySelector(".ord-seq");
+      sc.shuffle.forEach(k=>{
+        const b = document.createElement("button"); b.type="button"; b.className="ord-item"; b.textContent = sc.items[k].label;
+        if (seq.includes(k)) b.disabled = true;
+        b.onclick = ()=>{ seq.push(k); save(); R.order(sc, el); };
+        pool.appendChild(b);
+      });
+      sc.items.forEach((_,pos)=>{
+        const k = seq[pos], d = document.createElement("div");
+        d.className = "ord-slot" + (k!==undefined ? " filled" : "") + (full ? (k===pos ? " ok" : " no") : "");
+        d.innerHTML = '<span class="n">'+(pos+1)+'</span><span>'+(k!==undefined ? sc.items[k].label + (full ? '<small>'+sc.items[k].detail+'</small>' : '') : '<span class="muted" style="font-weight:500">…</span>')+'</span>';
+        sq.appendChild(d);
+      });
+      if (full){
+        const ok = seq.every((k,pos)=>k===pos);
+        el.querySelector("#ordMsg").innerHTML = ok ? '<b style="color:var(--green)">All four in the right order.</b>' : '<b style="color:var(--red)">Not quite.</b> The red ones are out of place. Try again.';
+      }
+      el.querySelector("#ordReset").onclick = ()=>{ answers[sc.qid] = []; save(); R.order(sc, el); };
+    },
+    finish(sc, el){
+      const scen = screens.filter(x=>x.type==="scenario");
+      const sRight = scen.filter(x=> answers[x.qid]===x.correct).length;
+      const qfs = screens.find(x=>x.type==="quickfire");
+      const qa = qfs ? (answers[qfs.qid]||{}) : {};
+      const qRight = qfs ? Object.keys(qa).filter(k=> qa[k]===qfs.cards[k].serious).length : 0;
+      const role = M.roles && M.roles.find(r=>r.key===answers.role);
+      el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2>'+
+        '<div class="scorebar">'+
+          (qfs ? '<div class="stat"><span class="l">Quick-fire</span><span class="v">'+qRight+' / '+qfs.cards.length+'</span><span class="small">cards judged in line with the policy</span></div>' : '')+
+          '<div class="stat"><span class="l">Situations</span><span class="v">'+sRight+' / '+scen.length+'</span><span class="small">answered in line with the policy</span></div>'+
+        '</div>'+
+        '<p class="small muted">These scores are just for you. They stay on this device and aren\'t recorded.</p>'+
+        '<h3 style="margin-top:20px">Test your memory: tap a card to turn it over</h3><div class="flips"></div>'+
+        (role ? '<div class="callout" style="margin-bottom:18px"><span class="rolechip">As '+(role.as||role.label)+'</span><h3 style="margin-top:6px">If the call comes, you will…</h3><ul class="clean small" style="margin:6px 0 0">'+role.actions.map(a=>'<li>'+a+'</li>').join("")+'</ul></div>' : '')+
+        '<div class="panel"><h3>Last step: the knowledge check</h3><p class="small">'+fill(sc.formText)+'</p><a class="btn" data-form>Open the knowledge check</a></div>';
+      const fl = el.querySelector(".flips");
+      sc.cards.forEach((c,k)=>{
+        const b = document.createElement("button"); b.type="button"; b.className="flip"; b.setAttribute("aria-pressed","false");
+        b.innerHTML = '<div class="in"><div class="f"><small>'+(k+1)+' of '+sc.cards.length+'</small><span>'+c.q+'</span><small>Tap to reveal</small></div><div class="b"><small>Answer</small><span>'+c.a+'</span></div></div>';
+        b.onclick = ()=> b.setAttribute("aria-pressed", b.getAttribute("aria-pressed")!=="true");
+        fl.appendChild(b);
+      });
+    },
     tabs(sc, el){
       el.innerHTML = '<p class="eyebrow">'+fill(sc.eyebrow)+'</p><h2>'+fill(sc.title)+'</h2><p>'+fill(sc.intro)+'</p><div class="tabs" role="tablist"></div><div class="tabbody" role="tabpanel"></div>';
       const tl = el.querySelector(".tabs"), tb = el.querySelector(".tabbody");
       const pick = k => { [...tl.children].forEach((t,j)=>t.setAttribute("aria-selected", j===k)); tb.innerHTML = fill(sc.tabs[k].html); };
       sc.tabs.forEach((t,k)=>{ const b=document.createElement("button"); b.type="button"; b.className="tab"; b.setAttribute("role","tab"); b.textContent=t.label; b.onclick=()=>pick(k); tl.appendChild(b); });
-      pick(0);
-    }
+      const rt = (sc.roleTabs && answers.role) ? sc.roleTabs.indexOf(answers.role) : -1;
+      pick(rt>=0 ? rt : 0);
+    },
   };
 
   function render(){
